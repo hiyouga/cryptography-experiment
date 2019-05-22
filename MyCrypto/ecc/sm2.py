@@ -85,11 +85,11 @@ class SM2:
                 super().__init__(data, modulo)
         self._RF_q = RF_q
     
-    def _field2bytes(self, x:RF, k:int) -> bytes: # 3.2.2
-        return x.data.to_bytes(k, byteorder='big')
+    def _int2bytes(self, x:int, k:int) -> bytes: # 3.2.2
+        return x.to_bytes(k, byteorder='big')
     
-    def _bytes2field(self, m:bytes) -> RF: # 3.2.3
-        return self._RF_q(int.from_bytes(m, byteorder='big'))
+    def _bytes2int(self, m:bytes) -> int: # 3.2.3
+        return int.from_bytes(m, byteorder='big')
     
     def _bits2bytes(self, b:bitarray) -> bytes: # 3.2.4
         return b.to_bytes()
@@ -97,14 +97,14 @@ class SM2:
     def _bytes2bits(self, b:bytes) -> bitarray: # 3.2.5
         return bitarray.from_bytes(b)
     
-    def _elem2bytes(self, e:int) -> bytes: # 3.2.6
-        return self._field2bytes(e, self._byteLen)
+    def _elem2bytes(self, e:RF) -> bytes: # 3.2.6
+        return self._int2bytes(e.data, self._byteLen)
     
-    def _bytes2elem(self, s:bytes) -> int: # 3.2.7
-        return self._bytes2field(s)
+    def _bytes2elem(self, s:bytes) -> RF: # 3.2.7
+        return self._RF_q(self._bytes2int(s))
     
-    def _elem2int(self, e:int) -> int: # 3.2.8
-        return e
+    def _elem2int(self, e:RF) -> int: # 3.2.8
+        return e.data
     
     def _point2bytes(self, p:ECC, method='uncompressed') -> bytes: # 3.2.9
         assert p.isInfty == False

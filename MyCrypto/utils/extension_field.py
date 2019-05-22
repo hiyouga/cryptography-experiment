@@ -178,7 +178,9 @@ class Ext_RF: # A python implementation of Galois Field GF[x]/(p(x))
 
 
 if __name__ == '__main__':
-    from residue_field import RF
+    import sys
+    sys.path.append("../..")
+    from MyCrypto.utils.residue_field import RF
     
     class RF_3(RF):
         def __init__(self, data, modulo=3):

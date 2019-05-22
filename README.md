@@ -8,8 +8,8 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
 
 - Python 3
 - multiprocessing
-- numpy
-- matplotlib
+- numpy [optional]
+- matplotlib [optional]
 
 ## Contents
 
@@ -17,17 +17,17 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [bigInt.cpp](MyCrypto/utils/bigInt.cpp) - Big integer arithmetic in C++. [[ref]](https://github.com/faheel/BigInt)
   - [bitarray.py](MyCrypto/utils/bitarray.py) - A bit array class.
   - [matrix.py](MyCrypto/utils/matrix.py) - Arithmetic of matrices.
-  - [residue_field.py](MyCrypto/utils/residue_field.py) - Residue field "Z_p".
-  - [extension_field.py](MyCrypto/utils/extension_field.py) - Galois Field "GF[x]/(p(x))".
-  - [galois_field.py](MyCrypto/utils/galois_field.py) - Galois Field "GF_2^m".
+  - [residue_field.py](MyCrypto/utils/residue_field.py) - Residue field `Z_p`.
+  - [extension_field.py](MyCrypto/utils/extension_field.py) - Galois Field `GF[x]/(p(x))`.
+  - [galois_field.py](MyCrypto/utils/galois_field.py) - Galois Field `GF_2^m`.
 - [algorithms](MyCrypto/algorithms/) - Basic algorithms in cryptography.
   - [prime_sieve.py](MyCrypto/algorithms/prime_sieve.py) - Generate primes with Sieve of Eratosthenes.
   - [exgcd.py](MyCrypto/algorithms/exgcd.py) -  Extended Euclidean algorithm.
   - [power.py](MyCrypto/algorithms/power.py) - Modular exponentiation algorithm.
   - [crt.py](MyCrypto/algorithms/crt.py) - Chinese Remainder Theorem (CRT).
   - [prime_test.py](MyCrypto/algorithms/prime_test.py) - Probabilistic primality testing. (Miller–Rabin/Fermat/Solovay–Strassen)
-  - [prime_root.py](MyCrypto/algorithms/prime_root.py) - Generate prime roots of a prime number.
-  - [prime_poly.py](MyCrypto/algorithms/prime_poly.py) - Generate prime polynomial in GF_2^m.
+  - [prime_root.py](MyCrypto/algorithms/prime_root.py) - Generate prime roots in `Z_p`.
+  - [prime_poly.py](MyCrypto/algorithms/prime_poly.py) - Generate prime polynomial in `GF_2^m`.
   - [jacobi.py](MyCrypto/algorithms/jacobi.py) - Calculate the Jacobi symbol.
 - [classical](MyCrypto/classical/) - Classical Cryptography.
   - [affine.py](MyCrypto/classical/affine.py) - Affine Cipher.
@@ -96,6 +96,8 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [bigInt.cpp](MyCrypto/utils/bigInt.cpp)
   - [rsa](MyCrypto/rsa/)
   - [knapsack_cipher.py](MyCrypto/others/knapsack_cipher.py)
+- [ex8.pdf](Documents/zh-cn/ex8.pdf)
+  - [ecc](MyCrypto/ecc/)
 
 ## License
 

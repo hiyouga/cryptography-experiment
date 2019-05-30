@@ -10,12 +10,12 @@ class Matrix: # A python implementation of Matrices
     @classmethod
     def construct(cls, row, col, fill=0, dtype=float):
         lst = [[fill for j in range(col)] for i in range(row)]
-        return Matrix(lst, dtype=dtype)
+        return cls(lst, dtype=dtype)
     
     @classmethod
     def identity(cls, rank, dtype=float):
         lst = [[1 if i == j else 0 for j in range(rank)] for i in range(rank)]
-        return Matrix(lst, dtype=dtype)
+        return cls(lst, dtype=dtype)
     
     @property
     def shape(self):
@@ -26,7 +26,7 @@ class Matrix: # A python implementation of Matrices
         return self.row == self.col
     
     def copy(self):
-        res = Matrix.construct(self.row, self.col, dtype=self.dtype)
+        res = self.construct(self.row, self.col, dtype=self.dtype)
         for i in range(self.row):
             for j in range(self.col):
                 res[i, j] = self[i, j]
@@ -50,7 +50,7 @@ class Matrix: # A python implementation of Matrices
     
     def __add__(self, obj):
         assert isinstance(obj, Matrix) and self.shape == obj.shape
-        res = Matrix.construct(self.row, self.col, dtype=self.dtype)
+        res = self.construct(self.row, self.col, dtype=self.dtype)
         for i in range(self.row):
             for j in range(self.col):
                 res[i, j] = self[i, j] + obj[i, j]
@@ -58,22 +58,22 @@ class Matrix: # A python implementation of Matrices
     
     def __sub__(self, obj):
         assert isinstance(obj, Matrix) and self.shape == obj.shape
-        res = Matrix.construct(self.row, self.col, dtype=self.dtype)
+        res = self.construct(self.row, self.col, dtype=self.dtype)
         for i in range(self.row):
             for j in range(self.col):
                 res[i, j] = self[i, j] - obj[i, j]
         return res
     
     def __mul__(self, obj):
-        if isinstance(obj, int) or isinstance(obj, float):
-            res = Matrix.construct(self.row, self.col, dtype=self.dtype)
+        if isinstance(obj, self.dtype):
+            res = self.construct(self.row, self.col, dtype=self.dtype)
             for i in range(self.row):
                 for j in range(self.col):
                     res[i, j] = self[i, j] * obj
             return res
         else:
             assert isinstance(obj, Matrix) and self.col == obj.row
-            res = Matrix.construct(self.row, obj.col, dtype=self.dtype)
+            res = self.construct(self.row, obj.col, dtype=self.dtype)
             for i in range(self.row):
                 for j in range(obj.col):
                     temp = self.dtype(0)
@@ -90,9 +90,13 @@ class Matrix: # A python implementation of Matrices
         assert isinstance(obj, int) and self.issquare and obj >= -1
         if obj == -1:
             return self.inv()
-        res = Matrix.identity(self.row, dtype=self.dtype)
-        for i in range(obj):
-            res = res * self
+        res = self.identity(self.row, dtype=self.dtype)
+        temp = self.copy()
+        while obj:
+            if obj & 1:
+                res = res * temp
+            temp = temp * temp
+            obj >>= 1
         return res
     
     def __eq__(self, obj):
@@ -104,7 +108,7 @@ class Matrix: # A python implementation of Matrices
         return True
     
     def transpose(self):
-        res = Matrix.construct(self.col, self.row, dtype=self.dtype)
+        res = self.construct(self.col, self.row, dtype=self.dtype)
         for i in range(self.col):
             for j in range(self.row):
                 res[i, j] = self[j, i]
@@ -112,7 +116,7 @@ class Matrix: # A python implementation of Matrices
     
     def _cofactor_matrix(self, row, col):
         assert self.row > 1 and row <= self.row and col <= self.col
-        res = Matrix.construct(self.row-1, self.col-1, dtype=self.dtype)
+        res = self.construct(self.row-1, self.col-1, dtype=self.dtype)
         for i in range(self.row):
             if i == row:
                 continue
@@ -126,7 +130,7 @@ class Matrix: # A python implementation of Matrices
     
     def alg_cofactor(self, row, col):
         assert self.issquare
-        return self.dtype(-1)**(row+col)*self._cofactor_matrix(row, col).det()
+        return (self.dtype(-1)**(row+col)) * self._cofactor_matrix(row, col).det()
     
     def det(self):
         assert self.issquare
@@ -134,16 +138,16 @@ class Matrix: # A python implementation of Matrices
             return self[0, 0]
         res = self.dtype(0)
         for i in range(self.row):
-            res += self[0, i]*self.alg_cofactor(0, i)
+            res += self[0, i] * self.alg_cofactor(0, i)
         return res
     
     def inv(self):
         assert self.issquare
         det = self.det()
-        res = Matrix.construct(self.row, self.col, dtype=self.dtype)
+        res = self.construct(self.row, self.col, dtype=self.dtype)
         for i in range(self.row):
             for j in range(self.col):
-                res[i, j] = self.alg_cofactor(j, i)/det
+                res[i, j] = self.alg_cofactor(j, i) / det
         return res
 
 if __name__ == '__main__':

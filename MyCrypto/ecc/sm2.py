@@ -1,6 +1,6 @@
-import os
 import sys
 sys.path.append("../..")
+import os
 import math
 import random
 import hashlib

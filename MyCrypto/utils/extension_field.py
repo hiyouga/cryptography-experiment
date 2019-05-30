@@ -182,6 +182,8 @@ if __name__ == '__main__':
     sys.path.append("../..")
     from MyCrypto.utils.residue_field import RF
     
+    ''' Towering Extension '''
+    
     class RF_3(RF):
         def __init__(self, data, modulo=3):
             super().__init__(data, modulo)
@@ -189,6 +191,7 @@ if __name__ == '__main__':
     poly = (1, 0, 1)
     
     class RF_3_2(Ext_RF):
+        
         def __init__(self, data, poly=poly, base=RF_3):
             super().__init__(data, poly, base)
     
@@ -210,15 +213,16 @@ if __name__ == '__main__':
     print('a**2', a**2)
     assert a == b * (a//b) + a%b
     
-    poly2 = ((1, 1), (0, 0), (1, 0))
+    poly2 = ((0, 1), (0, 0), (1, 0))
     
     class RF_3_4(Ext_RF):
+        
         def __init__(self, data, poly=poly2, base=RF_3_2):
             super().__init__(data, poly, base)
     
     print('RF_3^4')
-    p = RF_3_4(((1, 2), (2, 2)))
-    q = RF_3_4(((0, 1), (2, 0)))
+    p = RF_3_4(((1, 0), (0, 1)))
+    q = RF_3_4(((0, 0), (1, 0)))
     print('p', p)
     print('q', q)
     print('p>>1', p>>1)
@@ -231,3 +235,16 @@ if __name__ == '__main__':
     print('p%q', p%q)
     print('p/p', p/p)
     assert p == q * (p//q) + p%q
+    
+    
+    poly3 = (((0, 0), (1, 0)), ((0, 0), (0, 0)), ((0, 0), (0, 0)), ((1, 0), (0, 0)))
+    
+    class RF_3_12(Ext_RF):
+        
+        def __init__(self, data, poly=poly3, base=RF_3_4):
+            super().__init__(data, poly, base)
+    
+    print('RF_3^12')
+    p = RF_3_12(2)
+    print('p', p)
+    print('p/p', p/p)

@@ -8,10 +8,10 @@ class DES_3round(DES):
         super().__init__(raw_key, _round=3)
     
     def run(self, data):
-        left_data, right_data = DES_3round.split_bit(data, 64, 2) # 64bits -> 32bits * 2
+        left_data, right_data = self.split_bit(data, 64, 2) # 64bits -> 32bits * 2
         for i in range(self._round):
             left_data, right_data = right_data, left_data ^ self._round_function(right_data, self.keys[i])
-        output = DES_3round.merge_bit((right_data, left_data), 32) # 32bits * 2 -> 64bits
+        output = self.merge_bit((right_data, left_data), 32) # 32bits * 2 -> 64bits
         return output
 
 class DiffCrypt(DES):
@@ -39,19 +39,19 @@ class DiffCrypt(DES):
     def diff(self, data_pair, code_pair):
         data_a, data_b = data_pair
         code_a, code_b = code_pair
-        l0_a, r0_a = DiffCrypt.split_bit(data_a, 64, 2)
-        l0_b, r0_b = DiffCrypt.split_bit(data_b, 64, 2)
+        l0_a, r0_a = self.split_bit(data_a, 64, 2)
+        l0_b, r0_b = self.split_bit(data_b, 64, 2)
         assert r0_a == r0_b
-        r3_a, l3_a = DiffCrypt.split_bit(code_a, 64, 2)
-        r3_b, l3_b = DiffCrypt.split_bit(code_b, 64, 2)
+        r3_a, l3_a = self.split_bit(code_a, 64, 2)
+        r3_b, l3_b = self.split_bit(code_b, 64, 2)
         r3_xor = r3_a ^ r3_b
         l0_xor = l0_a ^ l0_b
-        c_xor = DiffCrypt.permutation(r3_xor ^ l0_xor, DiffCrypt.reverse_table(self._permute), 32) # 32bits
-        e_a = DiffCrypt.permutation(l3_a, self._extend, 32) # 32bits -> 48bits
-        e_b = DiffCrypt.permutation(l3_b, self._extend, 32) # 32bits -> 48bits
-        cs = DiffCrypt.split_bit(c_xor, 32, 8) # 32bits -> 4bits * 8
-        es_a = DiffCrypt.split_bit(e_a, 48, 8) # 48bits -> 6bits * 8
-        es_b = DiffCrypt.split_bit(e_b, 48, 8) # 48bits -> 6bits * 8
+        c_xor = self.permutation(r3_xor ^ l0_xor, self.reverse_table(self._permute), 32) # 32bits
+        e_a = self.permutation(l3_a, self._extend, 32) # 32bits -> 48bits
+        e_b = self.permutation(l3_b, self._extend, 32) # 32bits -> 48bits
+        cs = self.split_bit(c_xor, 32, 8) # 32bits -> 4bits * 8
+        es_a = self.split_bit(e_a, 48, 8) # 48bits -> 6bits * 8
+        es_b = self.split_bit(e_b, 48, 8) # 48bits -> 6bits * 8
         test_boxes = [self._test_box(i, es_a[i], es_b[i], cs[i]) for i in range(8)] # 6bits * 8
         return test_boxes
     
@@ -70,21 +70,21 @@ class DiffCrypt(DES):
                 key_bit = key_bits.pop(0)
                 for k in key_sets[j]:
                     key_bits.append(key_bit+[k])
-        keys = [DiffCrypt.merge_bit(k, 6) for k in key_bits] # 48bits
+        keys = [self.merge_bit(k, 6) for k in key_bits] # 48bits
         pc1_extend = [8, 16, 24, 32, 40, 48, 56, 64] + self._pc1
-        pc1_extend_rev = DiffCrypt.reverse_table(pc1_extend)
+        pc1_extend_rev = self.reverse_table(pc1_extend)
         pc2_extend = [9, 18, 22, 25, 35, 38, 43, 54] + self._pc2
-        pc2_extend_rev = DiffCrypt.reverse_table(pc2_extend)
+        pc2_extend_rev = self.reverse_table(pc2_extend)
         for i in range(2**8):
             for k in keys:
-                key = DiffCrypt.merge_bit((i, k), 48) # 48bits -> 56bits
-                key = DiffCrypt.permutation(key, pc2_extend_rev, 56) # 56bits
-                left_key, right_key= DiffCrypt.split_bit(key, 56, 2) # 56bits -> 28bits * 2
+                key = self.merge_bit((i, k), 48) # 48bits -> 56bits
+                key = self.permutation(key, pc2_extend_rev, 56) # 56bits
+                left_key, right_key= self.split_bit(key, 56, 2) # 56bits -> 28bits * 2
                 for j in range(3):
-                    left_key, right_key = DiffCrypt.cyclic_rshift(left_key, 28, self._lshift[j]), DiffCrypt.cyclic_rshift(right_key, 28, self._lshift[j])
-                key = DiffCrypt.merge_bit((left_key, right_key), 28) # 28bits * 2 -> 56bits
-                key = DiffCrypt.permutation(key, pc1_extend_rev, 64) # 56bits -> 64bits
-                key = DiffCrypt.make_verify(key) # 64bits
+                    left_key, right_key = self.cyclic_rshift(left_key, 28, self._lshift[j]), self.cyclic_rshift(right_key, 28, self._lshift[j])
+                key = self.merge_bit((left_key, right_key), 28) # 28bits * 2 -> 56bits
+                key = self.permutation(key, pc1_extend_rev, 64) # 56bits -> 64bits
+                key = self.make_verify(key) # 64bits
                 des_3round = DES_3round(key)
                 code_test = des_3round.run(text[0][0])
                 if code_test == code[0][0]:

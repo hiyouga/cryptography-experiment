@@ -1,6 +1,7 @@
 import sys
 sys.path.append("../..")
 from MyCrypto.algorithms.power import quick_power
+from MyCrypto.algorithms.prime_sieve import sieveV3
 
 def eular(n):
     m = n
@@ -42,6 +43,13 @@ def naive_fact(n):
                 n //= i
         if n == 1:
             break
+    return fact
+
+def advance_fact(n): # slower than naive method ?
+    fact = list()
+    for p in sieveV3(n):
+        if n % p == 0:
+            fact.append(p)
     return fact
 
 def advance_pr(n):

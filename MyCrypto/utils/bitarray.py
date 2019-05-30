@@ -73,16 +73,18 @@ class bitarray: # A python implementation of bitarray
     def to_integer(self) -> int:
         return self._data
     
-    def to_bytes(self) -> bytes:
-        return self.to_integer().to_bytes(math.ceil(self._length/8), byteorder='big')
+    def to_bytes(self, byteorder='big') -> bytes:
+        return self.to_integer().to_bytes(math.ceil(self._length/8), byteorder=byteorder)
     
     @staticmethod
-    def from_bytes(b:bytes) -> 'bitarray':
-        return bitarray(int.from_bytes(b, byteorder='big'), len(b)*8)
+    def from_bytes(b:bytes, byteorder='big') -> 'bitarray':
+        return bitarray(int.from_bytes(b, byteorder=byteorder), len(b)*8)
     
     def reverse(self) -> 'bitarray':
-        assert self._length != 0
-        return bitarray(int(str(self)[::-1], 2), self._length)
+        if self._length == 0:
+            return bitarray()
+        else:
+            return bitarray(int(str(self)[::-1], 2), self._length)
 
 
 if __name__ == '__main__':

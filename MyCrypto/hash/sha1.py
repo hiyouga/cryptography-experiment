@@ -16,7 +16,7 @@ class SHA1:
         for chunk in chunks:
             w = chunk.split(32)
             for i in range(16, 80): # 32 words -> 80 words
-                w.append((w[i-3]^w[i-8]^w[i-14]^w[i-16])<<1)
+                w.append((w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16]) << 1)
             a, b, c, d, e = h0, h1, h2, h3, h4
             for i in range(80):
                 if 0 <= i <= 19:
@@ -58,8 +58,8 @@ class SHA1:
 
 
 if __name__ == '__main__':
-    message = 'The quick brown fox jumps over the lazy dog'
+    message = b'The quick brown fox jumps over the lazy dog'
     mysha1 = SHA1()
     stdsha1 = hashlib.sha1
-    print(mysha1(message.encode('ascii')).hexdigest)
-    print(stdsha1(message.encode('ascii')).hexdigest())
+    print(mysha1(message).hexdigest)
+    print(stdsha1(message).hexdigest())

@@ -1,3 +1,5 @@
+import sys
+sys.path.append("../..")
 import random
 from MyCrypto.hash.sha3 import SHA3_16
 
@@ -14,7 +16,6 @@ def birthday_attack(hash_func):
             return (attempt_count, str(hash_num), log_dict[digest])
         log_dict[digest] = str(hash_num)
         attempt_count += 1
-
 
 if __name__ == '__main__':
     print(birthday_attack(SHA3_16()))

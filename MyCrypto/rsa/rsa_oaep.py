@@ -41,14 +41,14 @@ class RSA_OAEP(RSA):
     def _padding_run(self, datas, method='encrypt'):
         if method == 'encrypt' and self._canEncrypt:
             if self._parallel:
-                return RSA_OAEP._parallel_run(RSA_OAEP._oaep_encrypt, datas, self._k, self._hLen, self._lHash, self._Hash, self._data['pk'])
+                return self._parallel_run(self._oaep_encrypt, datas, self._k, self._hLen, self._lHash, self._Hash, self._data['pk'])
             else:
-                return [RSA_OAEP._oaep_encrypt(data, self._k, self._hLen, self._lHash, self._Hash, self._data['pk']) for data in datas]
+                return [self._oaep_encrypt(data, self._k, self._hLen, self._lHash, self._Hash, self._data['pk']) for data in datas]
         elif method == 'decrypt' and self._canDecrypt:
             if self._parallel:
-                return RSA_OAEP._parallel_run(RSA_OAEP._oaep_decrypt, datas, self._k, self._hLen, self._lHash, self._Hash, self._data['sk'], self._data['ak'], self._canFast)
+                return self._parallel_run(self._oaep_decrypt, datas, self._k, self._hLen, self._lHash, self._Hash, self._data['sk'], self._data['ak'], self._canFast)
             else:
-                return [RSA_OAEP._oaep_decrypt(data, self._k, self._hLen, self._lHash, self._Hash, self._data['sk'], self._data['ak'], self._canFast) for data in datas]
+                return [self._oaep_decrypt(data, self._k, self._hLen, self._lHash, self._Hash, self._data['sk'], self._data['ak'], self._canFast) for data in datas]
         else:
             print('invaild request')
     
@@ -56,15 +56,14 @@ class RSA_OAEP(RSA):
     def _sub_parallel_run(func, datas, k, hLen, lHash, Hash, psk, ak, canFast):
         return [func(data, k, hLen, lHash, Hash, psk, ak, canFast) for data in datas]
     
-    @staticmethod
-    def _parallel_run(func, datas, k, hLen, lHash, Hash, psk, ak=None, canFast=False):
+    def _parallel_run(self, func, datas, k, hLen, lHash, Hash, psk, ak=None, canFast=False):
         cores = min([len(datas), multiprocessing.cpu_count()])
         pool = multiprocessing.Pool(cores)
         res_list = list()
         length = len(datas)
         for i in range(0, length, length//cores):
             data_part = datas[i:i+length//cores]
-            res = pool.apply_async(RSA_OAEP._sub_parallel_run, args=(func, data_part, k, hLen, lHash, Hash, psk, ak, canFast))
+            res = pool.apply_async(self._sub_parallel_run, args=(func, data_part, k, hLen, lHash, Hash, psk, ak, canFast))
             res_list.append(res)
         pool.close()
         pool.join()

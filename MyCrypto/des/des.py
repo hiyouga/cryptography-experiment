@@ -12,16 +12,16 @@ class DES(DES_base):
     
     def run(self, data, method='encrypt'):
         ''' do encryption or decryption for binary data '''
-        data = DES.permutation(data, self._ip, 64) # 64bits
-        left_data, right_data = DES.split_bit(data, 64, 2) # 64bits -> 32bits * 2
+        data = self.permutation(data, self._ip, 64) # 64bits
+        left_data, right_data = self.split_bit(data, 64, 2) # 64bits -> 32bits * 2
         if method == 'encrypt':
             iteration = range(self._round)
         if method == 'decrypt':
             iteration = range(self._round-1, -1, -1)
         for i in iteration:
             left_data, right_data = right_data, left_data ^ self._round_function(right_data, self.keys[i])
-        output = DES.merge_bit((right_data, left_data), 32) # 32bits * 2 -> 64bits
-        output = DES.permutation(output, self._ip_inv, 64) # 64bits
+        output = self.merge_bit((right_data, left_data), 32) # 32bits * 2 -> 64bits
+        output = self.permutation(output, self._ip_inv, 64) # 64bits
         return output
     
     def from_file(self, fn, method='encrypt'):
@@ -41,12 +41,12 @@ class DES(DES_base):
     
     def _round_function(self, data, key):
         ''' the round function '''
-        right_extended = DES.permutation(data, self._extend, 32) # 32bits -> 48bits
+        right_extended = self.permutation(data, self._extend, 32) # 32bits -> 48bits
         presult = right_extended ^ key # 48bits
-        s_box_inputs = DES.split_bit(presult, 48, 8) # 48bits -> 6bits * 8
+        s_box_inputs = self.split_bit(presult, 48, 8) # 48bits -> 6bits * 8
         s_box_outputs = [self._sbox_function(s_box_inputs[i], self._s_box[i]) for i in range(8)]
-        output = DES.merge_bit(s_box_outputs, 4) # 4bits * 8 -> 32bits
-        output = DES.permutation(output, self._permute, 32) # 32bits
+        output = self.merge_bit(s_box_outputs, 4) # 4bits * 8 -> 32bits
+        output = self.permutation(output, self._permute, 32) # 32bits
         return output
     
     @staticmethod
@@ -58,14 +58,14 @@ class DES(DES_base):
     
     def _reset_key(self, key):
         ''' reset keys of DES '''
-        assert DES.verify_key(key)
+        assert self.verify_key(key)
         self.keys = list()
-        key = DES.permutation(key, self._pc1, 64) # 64bits -> 56bits
-        left_key, right_key = DES.split_bit(key, 56, 2) # 56bits -> 28bits * 2
+        key = self.permutation(key, self._pc1, 64) # 64bits -> 56bits
+        left_key, right_key = self.split_bit(key, 56, 2) # 56bits -> 28bits * 2
         for i in range(self._round):
-            left_key, right_key = DES.cyclic_lshift(left_key, 28, self._lshift[i]), DES.cyclic_lshift(right_key, 28, self._lshift[i])
-            key = DES.merge_bit((left_key, right_key), 28) # 28bits * 2 -> 56bits
-            key = DES.permutation(key, self._pc2, 56) # 56bits -> 48bits
+            left_key, right_key = self.cyclic_lshift(left_key, 28, self._lshift[i]), self.cyclic_lshift(right_key, 28, self._lshift[i])
+            key = self.merge_bit((left_key, right_key), 28) # 28bits * 2 -> 56bits
+            key = self.permutation(key, self._pc2, 56) # 56bits -> 48bits
             self.keys.append(key)
     
     def _reset_data(self):

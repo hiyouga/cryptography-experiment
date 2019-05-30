@@ -1,5 +1,5 @@
 import sys
-sys.path.append("..")
+sys.path.append("../..")
 import hashlib
 from MyCrypto.utils.bitarray import bitarray
 from MyCrypto.hash.sha_utils import Digest
@@ -127,8 +127,8 @@ class SHA3_512(SHA3):
 
 
 if __name__ == '__main__':
-    message = 'The quick brown fox jumps over the lazy dog'
+    message = b'The quick brown fox jumps over the lazy dog'
     mysha3 = SHA3_512()
     stdsha3 = hashlib.sha3_512
-    print(mysha3(message.encode('ascii')).hexdigest)
-    print(stdsha3(message.encode('ascii')).hexdigest())
+    print(mysha3(message).hexdigest)
+    print(stdsha3(message).hexdigest())

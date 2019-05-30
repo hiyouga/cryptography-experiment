@@ -37,15 +37,14 @@ class AES_block(Fast_AES):
     def _sub_parallel_run(func, datas, tbox, keys, sbox):
         return [func(data, tbox, keys, sbox) for data in datas]
     
-    @staticmethod
-    def _parallel_run(func, datas, tbox, keys, sbox):
+    def _parallel_run(self, func, datas, tbox, keys, sbox):
         cores = min([len(datas), multiprocessing.cpu_count()])
         pool = multiprocessing.Pool(cores)
         res_list = list()
         length = len(datas)
         for i in range(0, length, length//cores):
             data_part = datas[i:i+length//cores]
-            res = pool.apply_async(AES_block._sub_parallel_run, args=(func, data_part, tbox, keys, sbox))
+            res = pool.apply_async(self._sub_parallel_run, args=(func, data_part, tbox, keys, sbox))
             res_list.append(res)
         pool.close()
         pool.join()
@@ -57,9 +56,9 @@ class AES_block(Fast_AES):
     def _ecb(self, datas, method):
         if self._parallel:
             if method == 'encrypt':
-                codes = AES_block._parallel_run(self._fast_encrypt, datas, self._te_box, self._f_keys, self._f_s_box)
+                codes = self._parallel_run(self._fast_encrypt, datas, self._te_box, self._f_keys, self._f_s_box)
             elif method == 'decrypt':
-                codes = AES_block._parallel_run(self._fast_decrypt, datas, self._td_box, self._f_keys_inv, self._f_s_box_inv)
+                codes = self._parallel_run(self._fast_decrypt, datas, self._td_box, self._f_keys_inv, self._f_s_box_inv)
         else:
             codes = [self._process(data, method) for data in datas]
         return codes

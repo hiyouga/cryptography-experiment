@@ -37,7 +37,7 @@ class HMAC:
 
 if __name__ == '__main__':
     message = b'The quick brown fox jumps over the lazy dog'
-    key = b'Secret'
+    key = b'key'
     
     stdsha1hmac = hmac.new(key, message, digestmod='sha1')
     mysha1hmac = HMAC(SHA1())

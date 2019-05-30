@@ -12,7 +12,7 @@ def naive(n):
             j += 1
         if isPrime:
             primes.append(i)
-    return primes[-1]
+    return primes
 
 def sieve(n):
     primes = [x if x&1 else 0 for x in range(n+1)]
@@ -22,7 +22,7 @@ def sieve(n):
             for j in range(i+i, n, i):
                 if primes[j] % primes[i] == 0:
                     primes[j] = 0
-    return [x for x in primes if x]
+    return [2] + [x for x in primes if x]
 
 def sieveV2(n):
     n = (n - 3) // 2
@@ -31,7 +31,7 @@ def sieveV2(n):
         if primes[i]:
             for j in range(3*(i+1), n+1, 2*i+3):
                 primes[j] = 0
-    return [x for x in primes if x]
+    return [2] + [x for x in primes if x]
 
 def sieveV3(n):
     n = (n - 3) // 2
@@ -40,7 +40,7 @@ def sieveV3(n):
         if primes[i]:
             for j in range(i*(2*i+6)+3, n+1, 2*i+3):
                 primes[j] = 0
-    return [x for x in primes if x]
+    return [2] + [x for x in primes if x]
 
 def sieveRange(primes, low, width):
     check = [(x+low) if x&1 else 0 for x in range(width)]

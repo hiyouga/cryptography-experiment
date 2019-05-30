@@ -11,26 +11,26 @@ class S_DES(DES_base):
     
     def run(self, data, method='encrypt'):
         ''' do encryption or decryption for binary data '''
-        data = S_DES.permutation(data, self._ip, 8) # 8bits
-        left_data, right_data = S_DES.split_bit(data, 8, 2) # 8bits -> 4bits * 2
+        data = self.permutation(data, self._ip, 8) # 8bits
+        left_data, right_data = self.split_bit(data, 8, 2) # 8bits -> 4bits * 2
         if method == 'encrypt':
             iteration = range(self._round)
         if method == 'decrypt':
             iteration = range(self._round-1, -1, -1)
         for i in iteration:
             left_data, right_data = right_data, left_data ^ self._round_function(right_data, self.keys[i])
-        output = S_DES.merge_bit((right_data, left_data), 4) # 4bits * 2 -> 8bits
-        output = S_DES.permutation(output, self._ip_inv, 8) # 8bits
+        output = self.merge_bit((right_data, left_data), 4) # 4bits * 2 -> 8bits
+        output = self.permutation(output, self._ip_inv, 8) # 8bits
         return output
     
     def _round_function(self, data, key):
         ''' the round function '''
-        right_extended = S_DES.permutation(data, self._extend, 4) # 4ibts -> 8bits
+        right_extended = self.permutation(data, self._extend, 4) # 4ibts -> 8bits
         presult = right_extended ^ key
-        s_box_inputs = S_DES.split_bit(presult, 8, 2) # 8bits -> 4bits * 2
+        s_box_inputs = self.split_bit(presult, 8, 2) # 8bits -> 4bits * 2
         s_box_outputs = [self._sbox_function(s_box_inputs[i], self._s_box[i]) for i in range(2)]
-        output = S_DES.merge_bit(s_box_outputs, 2) # 2bits * 2 -> 4bits
-        output = S_DES.permutation(output, self._permute, 4) # 4bits
+        output = self.merge_bit(s_box_outputs, 2) # 2bits * 2 -> 4bits
+        output = self.permutation(output, self._permute, 4) # 4bits
         return output
     
     @staticmethod
@@ -43,12 +43,12 @@ class S_DES(DES_base):
     def _reset_key(self, key):
         ''' reset keys of S-DES '''
         self.keys = list()
-        key = S_DES.permutation(key, self._pc1, 10) # 10bits
-        left_key, right_key = S_DES.split_bit(key, 10, 2) # 10bits -> 5bits * 2
+        key = self.permutation(key, self._pc1, 10) # 10bits
+        left_key, right_key = self.split_bit(key, 10, 2) # 10bits -> 5bits * 2
         for i in range(self._round):
-            left_key, right_key = S_DES.cyclic_lshift(left_key, 5, self._lshift[i]), S_DES.cyclic_lshift(right_key, 5, self._lshift[i])
-            key = S_DES.merge_bit((left_key, right_key), 5) # 5bits * 2 -> 10bits
-            key = S_DES.permutation(key, self._pc2, 10) # 10bits -> 8bits
+            left_key, right_key = self.cyclic_lshift(left_key, 5, self._lshift[i]), self.cyclic_lshift(right_key, 5, self._lshift[i])
+            key = self.merge_bit((left_key, right_key), 5) # 5bits * 2 -> 10bits
+            key = self.permutation(key, self._pc2, 10) # 10bits -> 8bits
             self.keys.append(key)
     
     def _reset_data(self):

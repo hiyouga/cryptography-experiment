@@ -68,23 +68,23 @@ class RSA:
     
     def _resetData(self):
         if self._pkFile is not None and self._skFile is not None:
-            self._data['e'], self._data['n'] = RSA._loadFile(self._pkFile)
-            self._data['d'], _ = RSA._loadFile(self._skFile)
+            self._data['e'], self._data['n'] = self._loadFile(self._pkFile)
+            self._data['d'], _ = self._loadFile(self._skFile)
             self._canEncrypt, self._canDecrypt = True, True
         elif self._pkFile is not None:
-            self._data['e'], self._data['n'] = RSA._loadFile(self._pkFile)
+            self._data['e'], self._data['n'] = self._loadFile(self._pkFile)
             self._canEncrypt = True
         elif self._skFile is not None:
-            self._data['d'], self._data['n'] = RSA._loadFile(self._skFile)
+            self._data['d'], self._data['n'] = self._loadFile(self._skFile)
             self._canDecrypt = True
         else:
-            self._data = RSA._genKey()
+            self._data = self._genKey()
             self._canEncrypt, self._canDecrypt = True, True
-            RSA._saveFile('pk.txt', (self._data['e'], self._data['n']))
-            RSA._saveFile('sk.txt', (self._data['d'], self._data['n']))
-            RSA._saveFile('ak.txt', (self._data['p'], self._data['q']))
+            self._saveFile('pk.txt', (self._data['e'], self._data['n']))
+            self._saveFile('sk.txt', (self._data['d'], self._data['n']))
+            self._saveFile('ak.txt', (self._data['p'], self._data['q']))
         if self._akFile is not None:
-            self._data['p'], self._data['q'] = RSA._loadFile(self._akFile)
+            self._data['p'], self._data['q'] = self._loadFile(self._akFile)
         if self._fastDecrypt and 'p' in self._data:
             self._data['xp'] = self._data['q'] * inverse(self._data['q'], self._data['p'])
             self._data['xq'] = self._data['p'] * inverse(self._data['p'], self._data['q'])

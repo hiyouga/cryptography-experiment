@@ -13,14 +13,14 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
 
 ## Contents
 
-- [utils](MyCrypto/utils/) - Some useful utilities in cryptography.
+- [utils/](MyCrypto/utils/) - Some useful utilities in cryptography.
   - [bigInt.cpp](MyCrypto/utils/bigInt.cpp) - Big integer arithmetic in C++. [[ref]](https://github.com/faheel/BigInt)
   - [bitarray.py](MyCrypto/utils/bitarray.py) - A bit array class.
   - [matrix.py](MyCrypto/utils/matrix.py) - Arithmetic of matrices.
   - [residue_field.py](MyCrypto/utils/residue_field.py) - Residue field `Z_p`.
   - [extension_field.py](MyCrypto/utils/extension_field.py) - Galois Field `GF[x]/(p(x))`.
   - [galois_field.py](MyCrypto/utils/galois_field.py) - Galois Field `GF_2^m`.
-- [algorithms](MyCrypto/algorithms/) - Basic algorithms in cryptography.
+- [algorithms/](MyCrypto/algorithms/) - Basic algorithms in cryptography.
   - [prime_sieve.py](MyCrypto/algorithms/prime_sieve.py) - Generate primes with Sieve of Eratosthenes.
   - [exgcd.py](MyCrypto/algorithms/exgcd.py) -  Extended Euclidean algorithm.
   - [power.py](MyCrypto/algorithms/power.py) - Modular exponentiation algorithm.
@@ -29,43 +29,47 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [prime_root.py](MyCrypto/algorithms/prime_root.py) - Generate prime roots in `Z_p`.
   - [prime_poly.py](MyCrypto/algorithms/prime_poly.py) - Generate prime polynomial in `GF_2^m`.
   - [jacobi.py](MyCrypto/algorithms/jacobi.py) - Calculate the Jacobi symbol.
-- [classical](MyCrypto/classical/) - Classical Cryptography.
+- [classical/](MyCrypto/classical/) - Classical Cryptography.
   - [affine.py](MyCrypto/classical/affine.py) - Affine Cipher.
   - [vigenere.py](MyCrypto/classical/vigenere.py) - Vigenere Cipher.
   - [vernam.py](MyCrypto/classical/vernam.py) - Vernam Cipher.
   - [crack_single_table.py](MyCrypto/classical/crack_single_table.py) - Crack simple substitution cipher using letter frequency analysis.
   - [hill.py](MyCrypto/classical/hill.py) - Hill cipher and the cracker.
-- [des](MyCrypto/des/) - Data Encryption Standard (DES).
+- [des/](MyCrypto/des/) - Data Encryption Standard (DES).
   - [des_utils.py](MyCrypto/des/des_utils.py) - Some utilities in DES.
   - [des.py](MyCrypto/des/des.py) - A 64-bit DES block cipher.
   - [diff_crypt.py](MyCrypto/des/diff_crypt.py) - Use differential cryptanalysis to attack DES cipher.
   - [triple_des.py](MyCrypto/des/triple_des.py) - A 3-DES block cipher.
   - [s_des.py](MyCrypto/des/s_des.py) - A simplified DES cipher.
   - [mitm.py](MyCrypto/des/mitm.py) - Use meet-in-the-middle attack on double S-DES.
-- [aes](MyCrypto/aes/) - Advanced Encryption Standard (AES).
+- [aes/](MyCrypto/aes/) - Advanced Encryption Standard (AES).
   - [aes.py](MyCrypto/aes/aes.py) - A 128-bit AES block cipher.
   - [fast_aes.py](MyCrypto/aes/fast_aes.py) - A look-up-table implementation of AES to accelerate the algorithm.
   - [block_cipher.py](MyCrypto/aes/block_cipher.py) - Some block cipher modes of operation. (ECB/CBC/CFB)
   - [cipher_gui.py](MyCrypto/aes/cipher_gui.py) - A simple GUI for our block cipher.
-- [rsa](MyCrypto/rsa/) - Rivest–Shamir–Adleman (RSA) cryptosystem.
+- [rsa/](MyCrypto/rsa/) - Rivest–Shamir–Adleman (RSA) cryptosystem.
   - [rsa.py](MyCrypto/rsa/rsa.py) - A 1024-bit RSA public-key cryptosystem.
   - [rsa_oaep.py](MyCrypto/rsa/rsa_oaep.py) - RSA with Optimal Asymmetric Encryption Padding (OAEP).
-- [ecc](MyCrypto/ecc/) - Elliptic-curve cryptography (ECC).
+- [ecc/](MyCrypto/ecc/) - Elliptic-curve cryptography (ECC).
   - [ecc.py](MyCrypto/ecc/ecc.py) - The basic elliptic curve arithmetic.
   - [diffie_hellman_ecc.py](MyCrypto/ecc/diffie_hellman_ecc.py) - The anonymous key agreement protocol in ECC. (Also ECDH)
   - [elgamal_ecc.py](MyCrypto/ecc/elgamal_ecc.py) - The ElGamal public-key cryptosystem over elliptic curves.
   - [sm2.py](MyCrypto/ecc/sm2.py) - The SM2 ([GM/T 0003-2012](http://www.gmbz.org.cn/main/bzlb.html)) public-key cryptography standard.
-- [hash](MyCrypto/hash/) - Cryptographic hash functions.
+- [hash/](MyCrypto/hash/) - Cryptographic hash functions.
   - [sha_utils.py](MyCrypto/hash/sha_utils.py) - Some utilities for Secure Hash Algorithm (SHA) family.
-  - [sha1.py](MyCrypto/hash/sha1.py) - A 160-bit SHA-1 (Secure Hash Algorithm 1) hash function.
-  - [sha3.py](MyCrypto/hash/sha3.py) - A SHA-3 (Secure Hash Algorithm 3) hash function. (Also Keccak) 
+  - [sha1.py](MyCrypto/hash/sha1.py) - The SHA-1 (Secure Hash Algorithm 1) hash function.
+  - [sha3.py](MyCrypto/hash/sha3.py) - The SHA-3 (Secure Hash Algorithm 3) hash function. (Also Keccak) 
   - [hmac.py](MyCrypto/hash/hmac.py) - A HMAC (Hash-based Message Authentication Code) function with SHA.
   - [birthday_attack.py](MyCrypto/hash/birthday_attack.py) - A birthday attack example on SHA3-16.
-- [others](MyCrypto/others/) - Other functions.
+  - [message_variants.py](MyCrypto/hash/message_variants.py) - Generate arbitrary number of message variants.
+- [dsa/](MyCrypto/dsa/) - Digital signature algorithms.
+  - [dsa.py](MyCrypto/dsa/dsa.py) - The NIST proposed DSA in Digital Signature Standard (DSS).
+  - [elgamal_dsa.py](MyCrypto/dsa/elgamal_dsa.py) - The ElGamal signature scheme.
+- [others/](MyCrypto/others/) - Other functions.
   - [multiprocess.py](MyCrypto/others/multiprocess.py) - A multiprocessing example in Python.
   - [visualization.py](MyCrypto/others/visualization.py) - A visualization and curve fitting example.
   - [knapsack_cipher.py](MyCrypto/others/knapsack_cipher.py) - A simple knapsack cipher example.
-- [testdata](MyCrypto/testdata/) - Test data folder.
+- [testdata/](MyCrypto/testdata/) - Test data folder.
   - [text.txt](MyCrypto/testdata/text.txt) - A UTF-8 encoded text file contains short Chinese and English sentences.
 
 ## Documents
@@ -98,6 +102,8 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [knapsack_cipher.py](MyCrypto/others/knapsack_cipher.py)
 - [ex8.pdf](Documents/zh-cn/ex8.pdf)
   - [ecc](MyCrypto/ecc/)
+- [ex9.pdf](Documents/zh-cn/ex9.pdf)
+  - [hash](MyCrypto/hash/)
 
 ## License
 

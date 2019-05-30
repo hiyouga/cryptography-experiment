@@ -21,7 +21,7 @@ class AES:
             return self._decrypt(data)
     
     def _encrypt(self, data):
-        data = AES.split_bit(data, 128, 16)
+        data = self.split_bit(data, 128, 16)
         state = [[data[i+j*4] for j in range(4)] for i in range(4)]
         state = Matrix(state, dtype=GF2_8)
         state = state + self._keys[0]
@@ -34,11 +34,11 @@ class AES:
         state = self._shift_rows(state)
         state = self._add_round_key(state, self._keys[10])
         data = [state[i, j].data for j in range(4) for i in range(4)]
-        data = AES.merge_bit(data, 8)
+        data = self.merge_bit(data, 8)
         return data
     
     def _decrypt(self, data):
-        data = AES.split_bit(data, 128, 16)
+        data = self.split_bit(data, 128, 16)
         state = [[data[i+j*4] for j in range(4)] for i in range(4)]
         state = Matrix(state, dtype=GF2_8)
         state = state + self._keys_inv[10]
@@ -51,18 +51,18 @@ class AES:
         state = self._shift_rows_inv(state)
         state = self._add_round_key(state, self._keys_inv[0])
         data = [state[i, j].data for j in range(4) for i in range(4)]
-        data = AES.merge_bit(data, 8)
+        data = self.merge_bit(data, 8)
         return data
     
     def _sub_bytes(self, state):
         for i in range(state.row):
             for j in range(state.col):
-                state[i, j] = self._s_box[AES.split_bit(state[i, j].data, 8, 2)]
+                state[i, j] = self._s_box[self.split_bit(state[i, j].data, 8, 2)]
     
     def _sub_bytes_inv(self, state):
         for i in range(state.row):
             for j in range(state.col):
-                state[i, j] = self._s_box_inv[AES.split_bit(state[i, j].data, 8, 2)]
+                state[i, j] = self._s_box_inv[self.split_bit(state[i, j].data, 8, 2)]
     
     def _shift_rows(self, state):
         mat_data = [[state[i, j].data for j in range(state.col)] for i in range(state.row)]
@@ -112,12 +112,12 @@ class AES:
             for j in range(s_matrix.col):
                 if s_matrix[i, j] != GF2_8(0):
                     s_matrix[i, j] = s_matrix[i, j].inv
-                temp = AES.split_bit(s_matrix[i, j].data, 8, 8)[::-1]
+                temp = self.split_bit(s_matrix[i, j].data, 8, 8)[::-1]
                 temp = [[i] for i in temp]
                 x_matrix = Matrix(temp, dtype=GF2_8)
                 temp = a_matrix * x_matrix + c_matrix
                 temp = [temp[i, 0].data for i in range(temp.row)][::-1]
-                temp = [AES.merge_bit(temp, 1)][0]
+                temp = [self.merge_bit(temp, 1)][0]
                 s_matrix[i, j] = GF2_8(temp)
         self._s_box = s_matrix
         is_matrix = [[i*16+j for j in range(16)] for i in range(16)]
@@ -128,12 +128,12 @@ class AES:
         d_matrix = Matrix(d_matrix, dtype=GF2_8)
         for i in range(is_matrix.row):
             for j in range(is_matrix.col):
-                temp = AES.split_bit(is_matrix[i, j].data, 8, 8)[::-1]
+                temp = self.split_bit(is_matrix[i, j].data, 8, 8)[::-1]
                 temp = [[i] for i in temp]
                 ix_matrix = Matrix(temp, dtype=GF2_8)
                 temp = b_matrix * ix_matrix + d_matrix
                 temp = [temp[i, 0].data for i in range(temp.row)][::-1]
-                temp = [AES.merge_bit(temp, 1)][0]
+                temp = [self.merge_bit(temp, 1)][0]
                 is_matrix[i, j] = GF2_8(temp)
                 if is_matrix[i, j] != GF2_8(0):
                     is_matrix[i, j] = is_matrix[i, j].inv
@@ -150,7 +150,7 @@ class AES:
         def _sub_word(x):
             x = x[:]
             for i in range(len(x)):
-                x[i] = self._s_box[AES.split_bit(x[i].data, 8, 2)]
+                x[i] = self._s_box[self.split_bit(x[i].data, 8, 2)]
             return x
         def _rcon(i):
             x = [GF2_8(0) for i in range(4)]
@@ -158,7 +158,7 @@ class AES:
             return x
         
         keys = []
-        cur_key = AES.split_bit(raw_key, 128, 16)
+        cur_key = self.split_bit(raw_key, 128, 16)
         cur_key = [[cur_key[i+j*4] for j in range(4)] for i in range(4)]
         cur_key = Matrix(cur_key, dtype=GF2_8)
         keys.append(cur_key)

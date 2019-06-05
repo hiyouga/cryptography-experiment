@@ -76,7 +76,7 @@ class DSA:
                     h = random.randint(2, p - 2)
                     g = quick_power(h, e, p)
                     if g > 1:
-                        return {'p':p, 'q':q, 'g':g}
+                        return {'p': p, 'q': q, 'g': g}
             offset += t + 1
     
     def _hash(self, m) -> int:
@@ -89,8 +89,8 @@ class DSA:
     
 
 if __name__ == '__main__':
-    dsa = DSA()
     message = 'message'
+    dsa = DSA()
     sk, pk = dsa.genKey()
     sign = dsa.sign(message, sk)
     print(sign)

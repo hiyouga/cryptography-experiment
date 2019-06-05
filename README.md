@@ -52,7 +52,7 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [rsa_oaep.py](MyCrypto/rsa/rsa_oaep.py) - RSA with Optimal Asymmetric Encryption Padding (OAEP).
 - [ecc/](MyCrypto/ecc/) - Elliptic-curve cryptography (ECC).
   - [ecc.py](MyCrypto/ecc/ecc.py) - The basic elliptic curve arithmetic.
-  - [diffie_hellman_ecc.py](MyCrypto/ecc/diffie_hellman_ecc.py) - The anonymous key agreement protocol in ECC. (Also ECDH)
+  - [diffie_hellman_ecc.py](MyCrypto/ecc/diffie_hellman_ecc.py) - The anonymous key agreement protocol over elliptic curves. (Also ECDH)
   - [elgamal_ecc.py](MyCrypto/ecc/elgamal_ecc.py) - The ElGamal public-key cryptosystem over elliptic curves.
   - [sm2.py](MyCrypto/ecc/sm2.py) - The SM2 ([GM/T 0003-2012](http://www.gmbz.org.cn/main/bzlb.html)) public-key cryptography standard.
 - [hash/](MyCrypto/hash/) - Cryptographic hash functions.
@@ -64,7 +64,9 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [message_variants.py](MyCrypto/hash/message_variants.py) - Generate arbitrary number of message variants.
 - [dsa/](MyCrypto/dsa/) - Digital signature algorithms.
   - [dsa.py](MyCrypto/dsa/dsa.py) - The NIST proposed DSA in Digital Signature Standard (DSS).
-  - [elgamal_dsa.py](MyCrypto/dsa/elgamal_dsa.py) - The ElGamal signature scheme.
+  - [elgamal_dsa.py](MyCrypto/dsa/elgamal_dsa.py) - The ElGamal signature scheme based on DLP.
+  - [schnorr_dsa.py](MyCrypto/dsa/schnorr_dsa.py) - The Schnorr signature scheme based on DLP.
+  - [sm2_dsa.py](MyCrypto/dsa/sm2_dsa.py) - The SM2 ([GM/T 0003-2012](http://www.gmbz.org.cn/main/bzlb.html)) digital signature algorithm based on ECC.
 - [others/](MyCrypto/others/) - Other functions.
   - [multiprocess.py](MyCrypto/others/multiprocess.py) - A multiprocessing example in Python.
   - [visualization.py](MyCrypto/others/visualization.py) - A visualization and curve fitting example.

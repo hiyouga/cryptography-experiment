@@ -10,7 +10,7 @@ class ElGamal:
     def __init__(self, q:int, a:int):
         self._q = q
         self._a = a
-        self._hashFunc = hashlib.sha1
+        self._hash = lambda m: int(hashlib.sha1(m).hexdigest(), base=16)
     
     def genKey(self) -> tuple:
         sk = random.randint(2, self._q-2)
@@ -24,18 +24,14 @@ class ElGamal:
             if gcd(temp_k, self._q-1) == 1:
                 k = temp_k
         s1 = quick_power(self._a, k, self._q)
-        s2 = (inverse(k, self._q-1) * (self._hash(m) - sk * s1)) % (self._q - 1)
+        s2 = (inverse(k, self._q-1) * ((self._hash(m) % self._q) - sk * s1)) % (self._q - 1)
         return (s1, s2)
     
     def verify(self, m:bytes, sign:tuple, pk:int) -> bool:
         s1, s2 = sign
-        v1 = quick_power(self._a, self._hash(m), self._q)
+        v1 = quick_power(self._a, (self._hash(m) % self._q), self._q)
         v2 = (quick_power(pk, s1, self._q) * quick_power(s1, s2, self._q)) % self._q
         return v1 == v2
-    
-    def _hash(self, m:bytes) -> int:
-        assert isinstance(m, bytes)
-        return int(self._hashFunc(m).hexdigest(), base=16) % self._q
     
 
 if __name__ == '__main__':

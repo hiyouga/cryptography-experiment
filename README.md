@@ -47,7 +47,8 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [fast_aes.py](MyCrypto/aes/fast_aes.py) - A look-up-table implementation of AES to accelerate the algorithm.
   - [block_cipher.py](MyCrypto/aes/block_cipher.py) - Some block cipher modes of operation. (ECB/CBC/CFB)
   - [cipher_gui.py](MyCrypto/aes/cipher_gui.py) - A simple GUI for our block cipher.
-- [rsa/](MyCrypto/rsa/) - Rivest–Shamir–Adleman (RSA) cryptosystem.
+- [rsa/](MyCrypto/rsa/) - Rivest-Shamir-Adleman (RSA) cryptosystem.
+  - [knapsack_cipher.py](MyCrypto/rsa/knapsack_cipher.py) - A public-key cryptosystem based on knapsack problem.
   - [rsa.py](MyCrypto/rsa/rsa.py) - A 1024-bit RSA public-key cryptosystem.
   - [rsa_oaep.py](MyCrypto/rsa/rsa_oaep.py) - RSA with Optimal Asymmetric Encryption Padding (OAEP).
 - [ecc/](MyCrypto/ecc/) - Elliptic-curve cryptography (ECC).
@@ -67,10 +68,6 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
   - [elgamal_dsa.py](MyCrypto/dsa/elgamal_dsa.py) - The ElGamal signature scheme based on DLP.
   - [schnorr_dsa.py](MyCrypto/dsa/schnorr_dsa.py) - The Schnorr signature scheme based on DLP.
   - [sm2_dsa.py](MyCrypto/dsa/sm2_dsa.py) - The SM2 ([GM/T 0003-2012](http://www.gmbz.org.cn/main/bzlb.html)) digital signature algorithm based on ECC.
-- [others/](MyCrypto/others/) - Other functions.
-  - [multiprocess.py](MyCrypto/others/multiprocess.py) - A multiprocessing example in Python.
-  - [visualization.py](MyCrypto/others/visualization.py) - A visualization and curve fitting example.
-  - [knapsack_cipher.py](MyCrypto/others/knapsack_cipher.py) - A simple knapsack cipher example.
 - [testdata/](MyCrypto/testdata/) - Test data folder.
   - [text.txt](MyCrypto/testdata/text.txt) - A UTF-8 encoded text file contains short Chinese and English sentences.
 
@@ -101,11 +98,12 @@ BUAA-CST Spring 2019 Cryptography Experiment Project Code (Python).
 - [ex7.pdf](Documents/zh-cn/ex7.pdf)
   - [bigInt.cpp](MyCrypto/utils/bigInt.cpp)
   - [rsa](MyCrypto/rsa/)
-  - [knapsack_cipher.py](MyCrypto/others/knapsack_cipher.py)
 - [ex8.pdf](Documents/zh-cn/ex8.pdf)
   - [ecc](MyCrypto/ecc/)
 - [ex9.pdf](Documents/zh-cn/ex9.pdf)
   - [hash](MyCrypto/hash/)
+- [ex10.pdf](Documents/zh-cn/ex10.pdf)
+  - [dsa](MyCrypto/dsa/)
 
 ## License
 

@@ -19,13 +19,13 @@ class DSA:
         pk = quick_power(self._data['g'], sk, self._data['p'])
         return (sk, pk)
     
-    def sign(self, m, sk:int) -> tuple:
+    def sign(self, m:bytes, sk:int) -> tuple:
         k = random.randint(1, self._data['q']-1)
         r = quick_power(self._data['g'], k, self._data['p']) % self._data['q']
         s = (inverse(k, self._data['q'])*(self._hash(m) + sk*r)) % self._data['q']
         return (r, s)
     
-    def verify(self, m, sign:tuple, pk:int) -> bool:
+    def verify(self, m:bytes, sign:tuple, pk:int) -> bool:
         r, s = sign
         w = inverse(s, self._data['q'])
         u1 = (self._hash(m) * w) % self._data['q']
@@ -50,7 +50,7 @@ class DSA:
         if seedlen is None:
             seedlen = n
         assert seedlen >= n
-        outlen = self._hashFunc().digest_size * 8    
+        outlen = self._hashFunc().digest_size * 8
         t = l//outlen - 1
         b = l - 1 - t * outlen
         q = None
@@ -79,7 +79,7 @@ class DSA:
                         return {'p': p, 'q': q, 'g': g}
             offset += t + 1
     
-    def _hash(self, m) -> int:
+    def _hash(self, m:bytes) -> int:
         if isinstance(m, int) or isinstance(m, float):
             m = str(m).encode()
         if isinstance(m, str):
@@ -89,7 +89,7 @@ class DSA:
     
 
 if __name__ == '__main__':
-    message = 'message'
+    message = b'message'
     dsa = DSA()
     sk, pk = dsa.genKey()
     sign = dsa.sign(message, sk)
